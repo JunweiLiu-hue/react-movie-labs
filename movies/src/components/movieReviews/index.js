@@ -12,15 +12,20 @@ import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
 
 export default function MovieReviews({ movie }) {
-  const [reviews, setReviews] = useState([]);
+  const { data , error, isLoading, isError } = useQuery(
+    ["reviews", { id: movie.id }],
+    getMovieReviews
+  );
+  
+  if (isLoading) {
+    return <Spinner />;
+  }
 
-  useEffect(() => {
-    getMovieReviews(movie.id).then((reviews) => {
-      setReviews(reviews);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+  
+  const reviews = data.results;
   return (
     <TableContainer component={Paper}>
       <Table sx={{minWidth: 550}} aria-label="reviews table">
