@@ -1,32 +1,14 @@
 import React, { useState } from "react";
 import Chip from "@mui/material/Chip";
-import Paper from "@mui/material/Paper";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MonetizationIcon from "@mui/icons-material/MonetizationOn";
-import StarRate from "@mui/icons-material/StarRate";
-import NavigationIcon from "@mui/icons-material/Navigation";
-import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
-import Drawer from "@mui/material/Drawer";
-import { Link } from "react-router-dom"; 
 import ImageListItem from "@mui/material/ImageListItem";
-import Grid from "@mui/material/Grid";
+import Spinner from "../spinner";
 
-const root = {
-    display: "flex",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    listStyle: "none",
-    padding: 1.5,
-    margin: 0,
-};
-const chip = { margin: 0.5 };
-
-const ActorDetails = ({ actor }) => {  
+const ActorDetails = ({ actor, credits }) => {  
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     if (!actor) {
-        return <div>Loading...</div>; 
+        return <Spinner />; 
     }
 
     return (
@@ -34,19 +16,49 @@ const ActorDetails = ({ actor }) => {
             <Typography variant="h4" component="h3">
                 Individual Resume
             </Typography>
-            <br></br>
+            <br />
             <Typography variant="h6" component="p">
                 {actor.biography}
             </Typography>
-            <br></br>
+            <br />
             <Typography variant="h4" component="h3">
                 Magnum Opus
             </Typography>
-            
-            
-        </>
 
-            
+            <div style={{ 
+                display: 'flex', 
+                overflowX: 'auto', 
+                overflowY: 'hidden',
+                padding: '10px', 
+                whiteSpace: 'nowrap',
+                maxWidth: '80%', 
+                boxSizing: 'border-box', 
+                height: '400px', 
+            }}>
+                {credits && credits.cast && credits.cast.map((movie) => (
+                    <ImageListItem key={movie.id} style={{ 
+                        minWidth: '150px',
+                        marginRight: '10px', 
+                    }}>
+                        <img
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            alt={movie.title}
+                            loading="lazy"
+                            style={{ 
+                                borderRadius: '0px', 
+                                width: '150px',
+                                height: '300px', 
+                                objectFit: 'cover', 
+                            }} 
+                        />
+                        <Typography variant="subtitle1" component="h4">
+                            {movie.title}
+                        </Typography>
+                        <Chip label={`Role: ${movie.character}`} style={{ margin: '4px 0' }} />
+                    </ImageListItem>
+                ))}
+            </div>
+        </>
     );
 };
 

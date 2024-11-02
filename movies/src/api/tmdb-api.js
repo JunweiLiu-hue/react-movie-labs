@@ -160,4 +160,31 @@ export const getMovie = (args) => {
       throw error;
     });
   };
+
+  export const getActorCredits = (id) => { 
+    console.log("Actor ID:", id); 
+
+    return fetch(
+        `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.REACT_APP_TMDB_KEY}`
+    ).then((response) => {
+        if (!response.ok) {
+            return response.json().then((error) => {
+                throw new Error(error.status_message || "Something went wrong");
+            });
+        }
+        return response.json().then(data => {
+            return data;
+        });
+    })
+    .catch((error) => {
+        throw error;
+    });
+};
+
+
+
+
+
+
+
   
