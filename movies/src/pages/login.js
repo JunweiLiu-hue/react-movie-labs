@@ -1,56 +1,66 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../App.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            const user = JSON.parse(storedUser);
-            if (user.username === username && user.password === password) {
-                alert('Login successful!');
-                navigate('/movies/homepage'); 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            const requestTokenResponse = await axios.get(`https://api.themoviedb.org/3/authentication/token/new?api_key=${process.env.REACT_APP_TMDB_KEY}`);
+            const requestToken = requestTokenResponse.data.request_token;
+
+            const loginResponse = await axios.post(`https://api.themoviedb.org/3/authentication/token/validate_with_username?api_key=${process.env.REACT_APP_TMDB_KEY}`, {
+                username,
+                password,
+                request_token: requestToken,
+            });
+
+            if (loginResponse.data.success) {
+                // 登录成功，可以根据需要保存用户信息
+                navigate('/'); // 跳转到主页
             } else {
-                alert('Invalid credentials');
+                setError('登录失败，请检查用户名和密码');
             }
+        } catch (error) {
+            console.error(error);
+            setError('发生错误，请稍后再试');
         }
     };
 
     return (
-        <div className="login-container">
-            <div className="container">
-                <h2>Login</h2>
-                <div className="input-field">
+        <div>
+            <h2>Login</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <form onSubmit={handleLogin}>
+                <div>
                     <input 
                         type="text" 
-                        placeholder=" " 
-                        required 
-                        value={username}
+                        placeholder="Username" 
+                        value={username} 
                         onChange={(e) => setUsername(e.target.value)} 
+                        required 
                     />
-                    <label>Username</label>
                 </div>
-                <div className="input-field">
+                <div>
                     <input 
                         type="password" 
-                        placeholder=" " 
-                        required 
-                        value={password}
+                        placeholder="Password" 
+                        value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
+                        required 
                     />
-                    <label>Password</label>
                 </div>
-                <button className="button" onClick={handleLogin}>Login</button>
-                <Link to="/register" style={{ display: 'block', marginTop: '15px', color: '#333' }}>
-                    Don't have an account? Register
-                </Link>
-            </div>
+                <button type="submit">Login</button>
+            </form>
         </div>
     );
-}
+};
 
 export default Login;

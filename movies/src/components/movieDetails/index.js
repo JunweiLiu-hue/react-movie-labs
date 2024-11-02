@@ -9,6 +9,7 @@ import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews";
+import { Link } from "react-router-dom"; 
 
 const root = {
     display: "flex",
@@ -22,6 +23,10 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {  
     const [drawerOpen, setDrawerOpen] = useState(false);
+
+    if (!movie) {
+        return <div>Loading...</div>; 
+    }
 
     return (
         <>
@@ -66,9 +71,11 @@ const MovieDetails = ({ movie }) => {
                 <li>
                     <Chip label="Cast" sx={{ ...chip }} color="primary" />
                 </li>
-                {movie.credits.cast && movie.credits.cast.map((actor) => (
+                {movie.credits && movie.credits.cast && movie.credits.cast.map((actor) => (
                     <li key={actor.id}> 
-                        <Chip label={actor.name} sx={{ ...chip }} />
+                        <Link to={`/actor/${actor.id}`} style={{ textDecoration: 'none' }}>
+                            <Chip label={actor.name} sx={{ ...chip }} />
+                        </Link>
                     </li>
                 ))}
             </Paper>
