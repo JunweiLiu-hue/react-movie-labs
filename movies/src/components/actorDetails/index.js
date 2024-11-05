@@ -22,7 +22,7 @@ const ActorDetails = ({ actor, credits }) => {
             </Typography>
             <br />
             <Typography variant="h4" component="h3">
-                Magnum Opus
+                Notable Works:
             </Typography>
 
             <div style={{ 

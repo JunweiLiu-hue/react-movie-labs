@@ -23,8 +23,7 @@ const Login = () => {
             });
 
             if (loginResponse.data.success) {
-                // 登录成功，可以根据需要保存用户信息
-                navigate('/'); // 跳转到主页
+                navigate('/'); 
             } else {
                 setError('登录失败，请检查用户名和密码');
             }

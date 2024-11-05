@@ -3,12 +3,17 @@ import Spinner from "../spinner";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getActorImages } from "../../api/tmdb-api";
+import { getActorImages, getActorCredits } from "../../api/tmdb-api";
 
 const TemplateActorPage = ({ actor, children }) => {
   const { data, error, isLoading, isError } = useQuery(
     ["images", { id: actor.id }],
     getActorImages
+  );
+
+  const { data: creditsData, error: creditsError, isLoading: isCreditsLoading, isError: isCreditsError } = useQuery(
+    ["credits", { id: actor.id }],
+    () => getActorCredits(actor.id)
   );
 
   if (isLoading) {
@@ -19,35 +24,64 @@ const TemplateActorPage = ({ actor, children }) => {
     return <h1>{error.message}</h1>;
   }
 
-  const images = data.profiles || []; 
+  const images = data.profiles || [];
+  const notableWorks = creditsData?.cast || [];
+
+  const highestRatedMovie = notableWorks.reduce((highest, movie) => {
+    return (highest.vote_average || 0) > (movie.vote_average || 0) ? highest : movie;
+  }, {});
 
   return (
     <>
-
       <Grid container spacing={5} style={{ padding: "15px" }}>
         <Grid item xs={3}>
           <div
             style={{
               display: "flex",
               flexWrap: "wrap",
-              justifyContent: "space-around",
+              justifyContent: "center",
             }}
           >
-            <ImageList
-              sx={{
-                height: "100vh",
-              }}
-              cols={1}
-            >
-              {images.map((image) => (
-                <ImageListItem key={image.file_path}>
+            {images.length > 0 && (
+              <ImageList sx={{ height: "auto", width: "100%" }} cols={1}>
+                <ImageListItem key={images[0].file_path}>
                   <img
-                    src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
+                    src={`https://image.tmdb.org/t/p/w500/${images[0].file_path}`}
                     alt="Actor"
+                    style={{ width: '100%', height: 'auto' }}
                   />
                 </ImageListItem>
-              ))}
-            </ImageList>
+              </ImageList>
+            )}
+          </div>
+          <div style={{ marginTop: "10px", textAlign: "center" }}>
+            <h2>Personal Info</h2>
+            <p>
+              <strong>NotableWorks:</strong>
+              <br></br>
+              {highestRatedMovie.title || "N/A"}
+            </p>
+            <p>
+              <strong>Number of Works:</strong>
+              <br></br>
+              {notableWorks.length || "N/A"}
+            </p>
+            <p>
+              <strong>Gender:</strong>
+              <br></br>
+              {actor.gender === 1 ? 'Female' : 'Male'}
+            </p>
+            <p>
+              <strong>Birthday:</strong>
+              <br></br>
+              {actor.birthday || "N/A"}
+            </p>
+            <p>
+              <strong>Place of Birth:</strong>
+              <br></br>
+              {actor.place_of_birth || "N/A"}
+            </p>
+
           </div>
         </Grid>
 
