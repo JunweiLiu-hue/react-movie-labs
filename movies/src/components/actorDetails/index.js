@@ -11,6 +11,12 @@ const ActorDetails = ({ actor, credits }) => {
         return <Spinner />; 
     }
 
+    const sortedMovies = credits.cast.sort((a, b) => {
+        const yearA = a.release_date ? a.release_date.split("-")[0] : "N/A";
+        const yearB = b.release_date ? b.release_date.split("-")[0] : "N/A";
+        return yearB.localeCompare(yearA); 
+    });
+
     return (
         <>
             <Typography variant="h4" component="h3">
@@ -58,6 +64,27 @@ const ActorDetails = ({ actor, credits }) => {
                     </ImageListItem>
                 ))}
             </div>
+            <br/>
+
+            <Typography variant="h4" component="h3">
+                Acting Career:
+            </Typography>
+
+            {sortedMovies.map((movie) => {
+                const year = movie.release_date ? movie.release_date.split("-")[0] : "N/A";
+                const title = movie.title || movie.name;
+                const role = movie.character || "N/A";
+
+                return (
+                    <div key={movie.id} style={{ marginBottom: '15px' }}>
+                        <Typography variant="body1" component="p">
+                            <strong>{year}</strong> <br />
+                            {title} <br />
+                            acts {role}
+                        </Typography>
+                    </div>
+                );
+            })}
         </>
     );
 };

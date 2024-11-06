@@ -81,6 +81,13 @@ const TemplateActorPage = ({ actor, children }) => {
               <br></br>
               {actor.place_of_birth || "N/A"}
             </p>
+            <p>
+              <strong>Also Name:</strong>
+              <br />
+              {actor.also_known_as && actor.also_known_as.length > 0
+                ? actor.also_known_as.join(", ")
+                : "N/A"}
+            </p>
 
           </div>
         </Grid>
