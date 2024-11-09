@@ -14,6 +14,7 @@ import UpcomingPage from "./pages/UpcomingPage";
 import NowPlayingPage from "./pages/nowPlayingPage";
 import WatchListPage from "./pages/watchListPage";
 import ActorDetails from "./pages/actorDetails";
+import LoginPage from "./pages/loginPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,7 +34,9 @@ const App = () => {
         <MoviesContextProvider>
           <Routes>
             <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/movies/upcoming" element={<UpcomingPage />} />
+            <Route path="/login/callback" element={<LoginPage />} />
             <Route path="/movies/nowplaying" element={<NowPlayingPage />} />
             <Route path="/movies/watchlist" element={<WatchListPage />} />
             <Route path="/reviews/:id" element={ <MovieReviewPage /> } />

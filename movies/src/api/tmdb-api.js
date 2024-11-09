@@ -181,6 +181,33 @@ export const getMovie = (args) => {
     });
 };
 
+// src/api/authApi.js
+
+export const getRequestToken = async () => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/authentication/token/new?api_key=${process.env.REACT_APP_TMDB_KEY}`
+  );
+  const data = await response.json();
+  return data.request_token;
+};
+
+export const createSession = async (requestToken) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/authentication/session/new?api_key=${process.env.REACT_APP_TMDB_KEY}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ request_token: requestToken }),
+    }
+  );
+  const data = await response.json();
+  return data.session_id;
+};
+
+
+
 
 
 
