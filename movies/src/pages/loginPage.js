@@ -1,4 +1,4 @@
-
+import '../login.css'
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getRequestToken, createSession } from '../api/tmdb-api';
@@ -20,7 +20,7 @@ const LoginPage = () => {
     if (approved === 'true' && requestToken) {
       createSession(requestToken).then((sessionId) => {
         localStorage.setItem('tmdbSessionId', sessionId); 
-        navigate('/'); 
+        navigate('/HomePage'); 
       });
     }
   }, [location, navigate]);
