@@ -220,12 +220,134 @@ export const createSession = async (requestToken) => {
   return data.session_id;
 };
 
+export const addToFavorites = async (sessionId, movieId) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/account/${process.env.REACT_APP_ACCOUNT_ID}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        media_type: 'movie',
+        media_id: movieId,
+        favorite: true,
+      }),
+    }
+  );
+  const data = await response.json();
 
+  if (data.status_code === 1) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (!favorites.includes(movieId)) {
+      favorites.push(movieId);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
 
+  return data;
+};
 
+export const removeFromFavorites = async (sessionId, movieId) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/account/${process.env.REACT_APP_ACCOUNT_ID}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        media_type: 'movie',
+        media_id: movieId,
+        favorite: false,
+      }),
+    }
+  );
+  const data = await response.json();
 
+  if (data.status_code === 1) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(id => id !== movieId);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
 
+  return data;
+};
 
+export const addToWatchlist = async (sessionId, movieId) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/account/${process.env.REACT_APP_ACCOUNT_ID}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        media_type: 'movie',
+        media_id: movieId,
+        watchlist: true,
+      }),
+    }
+  );
+  const data = await response.json();
 
+  if (data.status_code === 1) {
+    let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+    if (!watchlist.includes(movieId)) {
+      watchlist.push(movieId);
+    }
+    localStorage.setItem('watchlist', JSON.stringify(watchlist));
+  }
 
-  
+  return data;
+};
+
+export const removeFromWatchlist = async (sessionId, movieId) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/account/${process.env.REACT_APP_ACCOUNT_ID}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        media_type: 'movie',
+        media_id: movieId,
+        watchlist: false,
+      }),
+    }
+  );
+  const data = await response.json();
+
+  if (data.status_code === 1) {
+    let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+    watchlist = watchlist.filter(id => id !== movieId);
+    localStorage.setItem('watchlist', JSON.stringify(watchlist));
+  }
+
+  return data;
+};
+
+export const getFavoritesFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem('favorites')) || [];
+};
+
+export const getWatchlistFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem('watchlist')) || [];
+};
+
+export const getFavorites = async (sessionId) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/account/{account_id}/favorites/movies?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`
+  );
+  const data = await response.json();
+  return data; 
+};
+
+export const getWatchlist = async (sessionId) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/account/{account_id}/watchlist/movies?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`
+  );
+  const data = await response.json();
+  return data; 
+};
