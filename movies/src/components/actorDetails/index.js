@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import ImageListItem from "@mui/material/ImageListItem";
+import { Link } from "react-router-dom";  
 import Spinner from "../spinner";
 
-const ActorDetails = ({ actor, credits }) => {  
-    const [drawerOpen, setDrawerOpen] = useState(false);
-
+const ActorDetails = ({ actor, credits }) => {
     if (!actor) {
-        return <Spinner />; 
+        return <Spinner />;
     }
 
     const sortedMovies = credits.cast.sort((a, b) => {
         const yearA = a.release_date ? a.release_date.split("-")[0] : "N/A";
         const yearB = b.release_date ? b.release_date.split("-")[0] : "N/A";
-        return yearB.localeCompare(yearA); 
+        return yearB.localeCompare(yearA);
     });
 
     return (
@@ -31,32 +30,34 @@ const ActorDetails = ({ actor, credits }) => {
                 Notable Works:
             </Typography>
 
-            <div style={{ 
-                display: 'flex', 
-                overflowX: 'auto', 
+            <div style={{
+                display: 'flex',
+                overflowX: 'auto',
                 overflowY: 'hidden',
-                padding: '10px', 
+                padding: '10px',
                 whiteSpace: 'nowrap',
-                maxWidth: '80%', 
-                boxSizing: 'border-box', 
-                height: '400px', 
+                maxWidth: '80%',
+                boxSizing: 'border-box',
+                height: '400px',
             }}>
                 {credits && credits.cast && credits.cast.map((movie) => (
-                    <ImageListItem key={movie.id} style={{ 
+                    <ImageListItem key={movie.id} style={{
                         minWidth: '150px',
-                        marginRight: '10px', 
+                        marginRight: '10px',
                     }}>
-                        <img
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt={movie.title}
-                            loading="lazy"
-                            style={{ 
-                                borderRadius: '0px', 
-                                width: '150px',
-                                height: '300px', 
-                                objectFit: 'cover', 
-                            }} 
-                        />
+                        <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}> 
+                            <img
+                                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                alt={movie.title}
+                                loading="lazy"
+                                style={{
+                                    borderRadius: '0px',
+                                    width: '150px',
+                                    height: '300px',
+                                    objectFit: 'cover',
+                                }}
+                            />
+                        </Link>
                         <Typography variant="subtitle1" component="h4">
                             {movie.title}
                         </Typography>
@@ -64,7 +65,7 @@ const ActorDetails = ({ actor, credits }) => {
                     </ImageListItem>
                 ))}
             </div>
-            <br/>
+            <br />
 
             <Typography variant="h4" component="h3">
                 Acting Career:

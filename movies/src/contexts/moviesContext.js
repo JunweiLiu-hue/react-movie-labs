@@ -14,14 +14,11 @@ export const MoviesContext = React.createContext(null);
 const MoviesContextProvider = (props) => {
   const [favorites, setFavorites] = useState(getFavoritesFromLocalStorage());
   const [watchlist, setWatchlist] = useState(getWatchlistFromLocalStorage());
-  const sessionId = localStorage.getItem("tmdbSessionId"); // 从 LocalStorage 获取 Session ID
-  console.log("Session ID:", sessionId);
+  const sessionId = localStorage.getItem("tmdbSessionId"); 
 
   useEffect(() => {
     if (sessionId) {
-      // 如果没有从 LocalStorage 中获取到数据，再从 TMDB 获取数据
       if (favorites.length === 0) {
-        // 从 TMDB 获取收藏列表
         getFavorites(sessionId)
           .then((data) => {
             const movieIds = data.results.map((movie) => movie.id);
@@ -32,7 +29,6 @@ const MoviesContextProvider = (props) => {
       }
 
       if (watchlist.length === 0) {
-        // 从 TMDB 获取观看列表
         getWatchlist(sessionId)
           .then((data) => {
             const movieIds = data.results.map((movie) => movie.id);
