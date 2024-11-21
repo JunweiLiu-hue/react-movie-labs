@@ -1,6 +1,4 @@
-/* LoginPage.css */
 
-/* 登录页面的整体容器样式 */
 .login-container {
     display: flex;
     flex-direction: column;
@@ -11,14 +9,12 @@
     font-family: Arial, sans-serif;
   }
   
-  /* 标题样式 */
   .login-container h2 {
     font-size: 2rem;
     color: #333;
     margin-bottom: 20px;
   }
   
-  /* 登录按钮样式 */
   .login-container button {
     padding: 10px 20px;
     font-size: 1rem;

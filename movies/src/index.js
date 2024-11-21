@@ -15,7 +15,7 @@ import NowPlayingPage from "./pages/nowPlayingPage";
 import WatchListPage from "./pages/watchListPage";
 import ActorDetails from "./pages/actorDetails";
 import LoginPage from "./pages/loginPage";
-import PopularPage from "./pages/popularPage"
+import PopularPage from "./pages/popularPage.js";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +36,7 @@ const App = () => {
           <Routes>
             <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
             <Route path="/movies/popular" element={<PopularPage />} />
+            <Route path="/movies/home" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/movies/upcoming" element={<UpcomingPage />} />
             <Route path="/login/callback" element={<LoginPage />} />
