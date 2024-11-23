@@ -351,3 +351,25 @@ export const getWatchlist = async (sessionId) => {
   const data = await response.json();
   return data; 
 };
+
+export const submitRating = async (movieId, rating, sessionId) => {
+  try {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/rating?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ value: rating }), 
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to submit rating');
+    }
+
+    const data = await response.json();
+    return data;  
+  } catch (err) {
+    console.error('Error submitting rating:', err);
+    throw new Error('Error submitting rating');
+  }
+};

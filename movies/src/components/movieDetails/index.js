@@ -23,6 +23,7 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const userRating = localStorage.getItem(`rating_${movie.id}`);
 
     if (!movie) {
         return <div>Loading...</div>;
@@ -89,6 +90,27 @@ const MovieDetails = ({ movie }) => {
                     </li>
                 ))}
             </Paper>
+
+            <Link to={`/rate/${movie.id}`} style={{ textDecoration: 'none' }}>
+                {console.log('Movie ID:', movie.id)}
+                <Fab
+                    color="primary"
+                    variant="extended"
+                    sx={{
+                        position: 'fixed',
+                        bottom: '1em',
+                        right: '1em'
+                    }}
+                >
+                    Rate this Movie
+                </Fab>
+            </Link>
+
+            {userRating && (
+                <Typography variant="h6" component="p" color="primary">
+                    Your Rating: {userRating}
+                </Typography>
+            )}
 
             <Fab
                 color="secondary"
