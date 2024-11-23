@@ -222,7 +222,7 @@ export const createSession = async (requestToken) => {
 
 export const addToFavorites = async (sessionId, movieId) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/account/${process.env.REACT_APP_ACCOUNT_ID}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
+    `https://api.themoviedb.org/3/account/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
     {
       method: 'POST',
       headers: {
@@ -250,7 +250,7 @@ export const addToFavorites = async (sessionId, movieId) => {
 
 export const removeFromFavorites = async (sessionId, movieId) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/account/${process.env.REACT_APP_ACCOUNT_ID}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
+    `https://api.themoviedb.org/3/account/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
     {
       method: 'POST',
       headers: {
@@ -276,7 +276,7 @@ export const removeFromFavorites = async (sessionId, movieId) => {
 
 export const addToWatchlist = async (sessionId, movieId) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/account/${process.env.REACT_APP_ACCOUNT_ID}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
+    `https://api.themoviedb.org/3/account/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
     {
       method: 'POST',
       headers: {
@@ -304,7 +304,7 @@ export const addToWatchlist = async (sessionId, movieId) => {
 
 export const removeFromWatchlist = async (sessionId, movieId) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/account/${process.env.REACT_APP_ACCOUNT_ID}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
+    `https://api.themoviedb.org/3/account/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`,
     {
       method: 'POST',
       headers: {
@@ -328,6 +328,7 @@ export const removeFromWatchlist = async (sessionId, movieId) => {
   return data;
 };
 
+
 export const getFavoritesFromLocalStorage = () => {
   return JSON.parse(localStorage.getItem('favorites')) || [];
 };
@@ -338,7 +339,7 @@ export const getWatchlistFromLocalStorage = () => {
 
 export const getFavorites = async (sessionId) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/account/{account_id}/favorites/movies?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`
+    `https://api.themoviedb.org/3/account/favorites/movies?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`
   );
   const data = await response.json();
   return data; 
@@ -346,11 +347,12 @@ export const getFavorites = async (sessionId) => {
 
 export const getWatchlist = async (sessionId) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/account/{account_id}/watchlist/movies?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`
+    `https://api.themoviedb.org/3/account/watchlist/movies?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${sessionId}`
   );
   const data = await response.json();
   return data; 
 };
+
 
 export const submitRating = async (movieId, rating, sessionId) => {
   try {
