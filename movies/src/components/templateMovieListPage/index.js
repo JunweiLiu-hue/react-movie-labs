@@ -5,14 +5,14 @@ import MovieList from "../movieList";
 import Grid from "@mui/material/Grid2";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import Pagination from "@mui/material/Pagination"; // 使用 MUI 的 Pagination 组件
+import Pagination from "@mui/material/Pagination"; 
 
 function MovieListPageTemplate({ movies, title, action }) {
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [sortOption, setSortOption] = useState("release_date");
   const [page, setPage] = useState(1);
-  const moviesPerPage = 10; // 每页显示的电影数量
+  const moviesPerPage = 10; 
   const genreId = Number(genreFilter);
 
   let displayedMovies = movies
@@ -33,7 +33,7 @@ function MovieListPageTemplate({ movies, title, action }) {
   const handleChange = (type, value) => {
     if (type === "name") setNameFilter(value);
     else setGenreFilter(value);
-    setPage(1); // 过滤条件改变时重置到第一页
+    setPage(1); 
   };
 
   const handleSortChange = (event) => {
@@ -44,7 +44,6 @@ function MovieListPageTemplate({ movies, title, action }) {
     setPage(value);
   };
 
-  // 获取当前页的电影
   const startIndex = (page - 1) * moviesPerPage;
   const endIndex = startIndex + moviesPerPage;
   const currentMovies = displayedMovies.slice(startIndex, endIndex);
