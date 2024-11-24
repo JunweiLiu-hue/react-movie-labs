@@ -49,11 +49,6 @@ const App = () => {
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/rate/:movieId" element={<RatePage />} />
             <Route path="/" element={<LoginPage />} />
-
-
-
-
-            
             <Route path="*" element={ <Navigate to="/" /> } />
             <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
           </Routes>
