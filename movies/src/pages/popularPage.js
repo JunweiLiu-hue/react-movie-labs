@@ -1,12 +1,12 @@
 import React from "react";
-import { getMovies } from "../api/tmdb-api"; 
+import { getPopularMovies } from "../api/tmdb-api"; 
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import AddToWatchlistIcon from "../components/cardIcons/addToWatch.js";
 
 const PopularPage = () => {
-  const { data, error, isLoading, isError } = useQuery('movies', getMovies);
+  const { data, error, isLoading, isError } = useQuery('movies', getPopularMovies);
 
   if (isLoading) {
     return <Spinner />;

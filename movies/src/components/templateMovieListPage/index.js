@@ -5,20 +5,19 @@ import MovieList from "../movieList";
 import Grid from "@mui/material/Grid2";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import Pagination from "@mui/material/Pagination"; 
 
 function MovieListPageTemplate({ movies, title, action }) {
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [sortOption, setSortOption] = useState("release_date");
-  const [page, setPage] = useState(1);
-  const moviesPerPage = 10; 
   const genreId = Number(genreFilter);
 
+  // 筛选电影
   let displayedMovies = movies
     .filter((m) => m.title.toLowerCase().includes(nameFilter.toLowerCase()))
     .filter((m) => (genreId > 0 ? m.genre_ids.includes(genreId) : true));
 
+  // 排序电影
   displayedMovies = displayedMovies.sort((a, b) => {
     if (sortOption === "popularity") {
       return b.popularity - a.popularity;
@@ -30,23 +29,16 @@ function MovieListPageTemplate({ movies, title, action }) {
     return 0;
   });
 
+  // 处理筛选变更
   const handleChange = (type, value) => {
     if (type === "name") setNameFilter(value);
     else setGenreFilter(value);
-    setPage(1); 
   };
 
+  // 处理排序变更
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
   };
-
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
-
-  const startIndex = (page - 1) * moviesPerPage;
-  const endIndex = startIndex + moviesPerPage;
-  const currentMovies = displayedMovies.slice(startIndex, endIndex);
 
   return (
     <Grid container>
@@ -75,14 +67,7 @@ function MovieListPageTemplate({ movies, title, action }) {
             <MenuItem value="rating">Sort by Rating</MenuItem>
           </Select>
         </Grid>
-        <MovieList action={action} movies={currentMovies}></MovieList>
-        <Grid size={12} sx={{ marginTop: "20px", textAlign: "center" }}>
-          <Pagination
-            count={Math.ceil(displayedMovies.length / moviesPerPage)}
-            page={page}
-            onChange={handlePageChange}
-          />
-        </Grid>
+        <MovieList action={action} movies={displayedMovies}></MovieList>
       </Grid>
     </Grid>
   );
