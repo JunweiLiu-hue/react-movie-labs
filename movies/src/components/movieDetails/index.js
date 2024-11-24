@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews";
 import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";  // 引入 Box 组件来处理布局
 
 const root = {
     display: "flex",
@@ -77,7 +78,6 @@ const MovieDetails = ({ movie }) => {
                 </li>
             </Paper>
 
-
             <Paper component="ul" sx={{ ...root }}>
                 <li>
                     <Chip label="Cast" sx={{ ...chip }} color="primary" />
@@ -91,20 +91,23 @@ const MovieDetails = ({ movie }) => {
                 ))}
             </Paper>
 
-            <Link to={`/rate/${movie.id}`} style={{ textDecoration: 'none' }}>
-                {console.log('Movie ID:', movie.id)}
-                <Fab
-                    color="primary"
-                    variant="extended"
-                    sx={{
-                        position: 'fixed',
-                        bottom: '1em',
-                        right: '1em'
-                    }}
-                >
-                    Rate this Movie
-                </Fab>
-            </Link>
+            {/* 这里我们将 Rate this Movie 按钮放在一个居中的 Box 中 */}
+            <Box 
+                sx={{ 
+                    display: "flex", 
+                    justifyContent: "center", 
+                    marginTop: 2 
+                }}
+            >
+                <Link to={`/rate/${movie.id}`} style={{ textDecoration: 'none' }}>
+                    <Fab
+                        color="primary"
+                        variant="extended"
+                    >
+                        Rate this Movie
+                    </Fab>
+                </Link>
+            </Box>
 
             {userRating && (
                 <Typography variant="h6" component="p" color="primary">
