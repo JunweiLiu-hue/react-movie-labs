@@ -21,9 +21,6 @@ const SiteHeader = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
 
-  // 获取sessionId来判断用户是否登录
-  const sessionId = localStorage.getItem('tmdbSessionId');
-
   const menuOptions = [
     { label: "Home", path: "/movies/home" },
     { label: "UPCOMING", path: "/movies/upcoming" },
@@ -31,8 +28,7 @@ const SiteHeader = () => {
     { label: "Popular", path: "/movies/popular" },
     { label: "Favorites", path: "/movies/favorites" },
     { label: "WatchList", path: "/movies/watchlist" },
-    // 如果用户已登录，显示登出按钮
-    { label: sessionId ? "Log Out" : "Login", path: sessionId ? "/logout" : "/movies/login" },
+    { label: sessionId ? "Log Out" : "Login", path: sessionId ? "/logout" : "/login" },
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -41,12 +37,6 @@ const SiteHeader = () => {
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
-  };
-
-  // 处理登出逻辑
-  const handleLogout = () => {
-    localStorage.removeItem('tmdbSessionId');
-    navigate('/movies/login');  // 跳转到登录页面
   };
 
   return (
@@ -88,7 +78,7 @@ const SiteHeader = () => {
                 {menuOptions.map((opt) => (
                   <MenuItem
                     key={opt.label}
-                    onClick={() => opt.label === "Log Out" ? handleLogout() : handleMenuSelect(opt.path)}
+                    onClick={() => handleMenuSelect(opt.path)}
                   >
                     {opt.label}
                   </MenuItem>
@@ -101,7 +91,7 @@ const SiteHeader = () => {
                 <Button
                   key={opt.label}
                   color="inherit"
-                  onClick={() => opt.label === "Log Out" ? handleLogout() : handleMenuSelect(opt.path)}
+                  onClick={() => handleMenuSelect(opt.path)}
                 >
                   {opt.label}
                 </Button>
