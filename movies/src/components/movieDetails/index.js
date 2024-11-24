@@ -91,7 +91,6 @@ const MovieDetails = ({ movie }) => {
                 ))}
             </Paper>
 
-            {/* 这里我们将 Rate this Movie 按钮放在一个居中的 Box 中 */}
             <Box 
                 sx={{ 
                     display: "flex", 

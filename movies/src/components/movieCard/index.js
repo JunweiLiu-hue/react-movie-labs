@@ -11,19 +11,11 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid2";
 import img from '../../images/film-poster-placeholder.png';
 import { Link } from "react-router-dom";
-import Avatar from '@mui/material/Avatar';
 
 export default function MovieCard({ movie, action }) {
   return (
     <Card>
       <CardHeader
-        avatar={
-          movie.favorite ? (
-            <Avatar sx={{ backgroundColor: 'red' }}>
-              {/* 已删除硬编码的 FavoriteIcon */}
-            </Avatar>
-          ) : null
-        }
         title={
           <Typography variant="h5" component="p">
             {movie.title}{" "}
@@ -55,7 +47,6 @@ export default function MovieCard({ movie, action }) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        {/* 通过 render prop 调用 action 函数 */}
         {action(movie)}
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
