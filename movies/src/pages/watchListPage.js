@@ -5,6 +5,7 @@ import { useQueries } from "react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from '../components/spinner'
 import WriteReview from "../components/cardIcons/writeReview";
+import RemoveFromWatchlist from "../components/cardIcons/removeFromWatchlist";
 
 const WatchListPage = () => {
   const {watchlist: movieIds } = useContext(MoviesContext);
@@ -35,6 +36,7 @@ const WatchListPage = () => {
       action={(movie) => {
         return (
           <>
+            <RemoveFromWatchlist movie={movie} />
             <WriteReview movie={movie} />
           </>
         );

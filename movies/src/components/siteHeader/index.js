@@ -20,14 +20,17 @@ const SiteHeader = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
+  const sessionId = localStorage.getItem('tmdbSessionId');
 
   const menuOptions = [
     { label: "Home", path: "/movies/home" },
     { label: "UPCOMING", path: "/movies/upcoming" },
     { label: "Now Playing", path: "/movies/nowplaying" },
     { label: "Popular", path: "/movies/popular" },
-    { label: "Favorites", path: "/movies/favorites" },
-    { label: "WatchList", path: "/movies/watchlist" },
+    ...(sessionId ? [
+      { label: "Favorites", path: "/movies/favorites" },
+      { label: "WatchList", path: "/movies/watchlist" },
+    ] : []),
     { label: sessionId ? "Log Out" : "Login", path: sessionId ? "/logout" : "/login" },
   ];
 
@@ -38,7 +41,7 @@ const SiteHeader = () => {
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  
   return (
     <>
       <AppBar position="fixed" color="secondary">

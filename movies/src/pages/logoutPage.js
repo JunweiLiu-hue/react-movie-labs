@@ -1,21 +1,19 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom"; 
+import { MoviesContext } from "../contexts/moviesContext";
 
 const LogoutPage = () => {
-  const navigate = useNavigate();
+  const { logout } = useContext(MoviesContext); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    // 清除本地存储中的 sessionId
-    localStorage.removeItem("tmdbSessionId");
-
-    // 跳转到登录页面
-    navigate("/movies/login", { replace: true });
-  }, [navigate]);
+    logout();
+    navigate("/homePage");
+  }, [logout, navigate]);
 
   return (
     <div>
-      <h2>Logging out...</h2>
-      <p>You will be redirected to the login page shortly.</p>
+      <h1>Loging out</h1>
     </div>
   );
 };

@@ -24,9 +24,19 @@ const HomePage = (props) => {
 
   const movies = data.results;
 
-  // Redundant, but necessary to avoid app crashing.
-  const favorites = movies.filter(m => m.favorite);
-  localStorage.setItem('favorites', JSON.stringify(favorites));
+  const handleAddToFavorites = (movieId) => {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (!favorites.includes(movieId)) {
+      favorites.push(movieId);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+  };
+
+  const handleRemoveFromFavorites = (movieId) => {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const updatedFavorites = favorites.filter(id => id !== movieId);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+  };
 
   const handlePageChange = (event, value) => {
     setPage(value); 
@@ -38,7 +48,7 @@ const HomePage = (props) => {
         title="Discover Movies"
         movies={movies}
         action={(movie) => {
-          return <AddToFavoritesIcon movie={movie} />;
+          return <AddToFavoritesIcon movie={movie} onAdd={handleAddToFavorites} onRemove={handleRemoveFromFavorites} />;
         }}
       />
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>

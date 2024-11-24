@@ -20,7 +20,8 @@ const LoginPage = () => {
     if (approved === 'true' && requestToken) {
       createSession(requestToken).then((sessionId) => {
         localStorage.setItem('tmdbSessionId', sessionId); 
-        navigate('/HomePage'); 
+        console.log(sessionId);
+        navigate('/homePage'); 
       });
     }
   }, [location, navigate]);

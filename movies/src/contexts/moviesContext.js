@@ -3,6 +3,7 @@ import {
   addToFavorites,
   removeFromFavorites,
   addToWatchlist,
+  removeFromWatchlist,
   getFavoritesFromLocalStorage,
   getWatchlistFromLocalStorage,
   getFavorites,
@@ -60,21 +61,20 @@ const MoviesContextProvider = (props) => {
   const removeFromFavoritesHandler = async (movie) => {
     if (sessionId) {
       try {
-        const response = await removeFromFavorites(sessionId, movie.id);
+        const response = await removeFromFavorites(sessionId, movie.id);  
         if (response) {
           setFavorites((prevFavorites) =>
             prevFavorites.filter((mId) => mId !== movie.id)
           );
-          localStorage.setItem(
-            "favorites",
-            JSON.stringify(favorites.filter((mId) => mId !== movie.id))
-          );
+          const updatedFavorites = favorites.filter((mId) => mId !== movie.id);
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
         }
       } catch (error) {
         console.error("Error removing from favorites:", error);
       }
     }
   };
+  
 
   const addToWatchlistHandler = async (movie) => {
     if (sessionId) {
@@ -93,6 +93,27 @@ const MoviesContextProvider = (props) => {
     }
   };
 
+  const removeFromWatchlistHandler = async (movie) => {
+    if (sessionId) {
+      try {
+        const response = await removeFromWatchlist(sessionId, movie.id);  
+        if (response) {
+          setWatchlist((prevWatchlist) =>
+            prevWatchlist.filter((mId) => mId !== movie.id)
+          );
+          const updatedWatchlist = watchlist.filter((mId) => mId !== movie.id);
+          localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
+        }
+      } catch (error) {
+        console.error("Error removing from watchlist:", error);
+      }
+    }
+  };
+  
+  const logout = () => {
+    localStorage.removeItem("tmdbSessionId"); 
+  };
+
   return (
     <MoviesContext.Provider
       value={{
@@ -101,6 +122,8 @@ const MoviesContextProvider = (props) => {
         removeFromFavorites: removeFromFavoritesHandler,
         watchlist,
         addToWatchlist: addToWatchlistHandler,
+        removeFromWatchlist:removeFromWatchlistHandler,
+        logout, 
       }}
     >
       {props.children}

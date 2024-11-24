@@ -1,3 +1,4 @@
+
 export const getMovies = async (page = 1) => {
   const response = await fetch(
     `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&page=${page}`
@@ -5,8 +6,19 @@ export const getMovies = async (page = 1) => {
   if (!response.ok) {
     throw new Error('Failed to fetch movies');
   }
-  return await response.json();
+  const data = await response.json();
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  const movies = data.results.map(movie => ({
+    ...movie,
+    favorite: favorites.includes(movie.id), 
+  }));
+
+  return {
+    ...data,
+    results: movies, 
+  };
 };
+
 
 export const getUpcomingMovies = () => {
   return fetch(

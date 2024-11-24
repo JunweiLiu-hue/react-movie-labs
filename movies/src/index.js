@@ -17,6 +17,7 @@ import ActorDetails from "./pages/actorDetails";
 import LoginPage from "./pages/loginPage";
 import PopularPage from "./pages/popularPage.js";
 import RatePage from "./pages/ratePage.js";
+import LogoutPage from "./pages/logoutPage.js";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,7 +50,7 @@ const App = () => {
             <Route path="/actor/:id" element={<ActorDetails />} />
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/rate/:movieId" element={<RatePage />} />
-            <Route path="/" element={<LoginPage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="*" element={ <Navigate to="/" /> } />
             <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
           </Routes>
