@@ -14,7 +14,7 @@ This repository is a ReactJS application that allows users to explore, rate, and
 
 - Added **actor list** to the movie details page.
 - Users can **click on an actor** to jump to their detailed profile page.
-- Navigate from **actor detail page** to **movie detail page**.login and logout by third-party authentication
+- Navigate from **actor detail page** to **movie detail page**.login by third-party authentication
 - **Login** through third-party authentication.
 - The **favorite page** and **watchlist page** are accessible only after login.
 - **Rating function**: Users can rate movies using a rating icon.
